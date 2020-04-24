@@ -1,0 +1,15 @@
+void first(int a)
+{
+    std::cout << "Hello, wordld!" << std::endl;
+}
+
+class Second 
+{
+private:
+    int a;
+public: 
+    void first() 
+    {
+        std::cout << "Hi" << std::endl;
+    }
+}
