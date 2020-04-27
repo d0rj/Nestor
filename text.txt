@@ -1,6 +1,6 @@
 void first(int a)
 {
-    std::cout << "Hello, wordld!" << std::endl;
+    std::cout << "Hello, world!" << std::endl;
 }
 
 class Second 
