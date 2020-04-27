@@ -3,6 +3,8 @@ import time
 from typing import List
 from tkinter import *
 import tkinter.filedialog as fd
+from tkinter import messagebox
+import os
 
 
 FILE_NAME = 'text.txt'
@@ -26,6 +28,10 @@ def write_lines(lines: List[str], interval: float = 0):
 
 
 def write_from_file(file_path: str = 'text.txt', interval: float = 0, timeout: float = 5):
+    if not os.path.exists(file_path):
+        messagebox.showerror('Ошибка', 'Файл: \"{}\" не найден'.format(file_path))
+        return
+
     time.sleep(timeout)
 
     text = str()
@@ -78,7 +84,8 @@ def main():
     select_button = Button(root,
                             text='Файл: ' + FILE_NAME,
                             background='#C0C0C0',
-                            command=lambda: on_choose_click(select_button)
+                            command=lambda: on_choose_click(select_button),
+                            width=200
                             )
     select_button.pack(side=TOP)
 
