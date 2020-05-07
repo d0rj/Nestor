@@ -41,6 +41,19 @@ def write_from_file(file_path: str = 'text.txt', interval: float = 0, timeout: f
     write_lines(text.split('\n'), interval)
 
 
+def write_from_clipboard(root: Tk, interval: float = 0, timeout: float = 5):
+    time.sleep(timeout)
+
+    write_lines(root.clipboard_get().split('\n'), interval)
+
+
+def on_startClick(file_path: str, interval: float, timeout: float, root: Tk, use_clipboard: BooleanVar = None):
+    if bool(use_clipboard.get()):
+        write_from_clipboard(root, interval, timeout)
+    else:
+        write_from_file(file_path, interval, timeout)
+
+
 def main():
     global FILE_NAME
 
@@ -89,13 +102,25 @@ def main():
                             )
     select_button.pack(side=TOP)
 
+    use_clipboard = BooleanVar()
+    use_clipboard.set(0)
+    clipboard_box = Checkbutton(
+        text='Из буффера обмена',
+        variable=use_clipboard,
+        onvalue=1,
+        offvalue=0
+    )
+    clipboard_box.pack(side=TOP)
+
     work_button = Button(root, 
                         text='Начать', 
                         background='#696969',
                         command=lambda: 
-                            write_from_file(FILE_NAME,
+                            on_startClick(FILE_NAME,
                                             abs(float(input_interval.get())),
-                                            abs(float(input_timeout.get()))
+                                            abs(float(input_timeout.get())),
+                                            root,
+                                            use_clipboard
                                             )
                         )
     work_button.pack(side=BOTTOM, fill=X)
