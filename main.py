@@ -8,7 +8,7 @@ import os
 import sys
 import argparse
 from pathlib import Path
-import random
+from random import uniform
 
 
 FILE_NAME = 'text.txt'
@@ -39,7 +39,7 @@ def on_choose_click(button: Button):
 
 def write_line(line: str, interval_start: float, interval_end: float):
 	for symbol in line:
-		interval = random.uniform(interval_start, interval_end) if interval_start < interval_end else interval_start
+		interval = uniform(interval_start, interval_end) if interval_start < interval_end else interval_start
 		pag.write(symbol, interval)
 
 
