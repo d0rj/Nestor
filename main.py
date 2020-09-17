@@ -1,6 +1,4 @@
-import pyautogui as pag
 import time
-from typing import List
 from tkinter import *
 import tkinter.filedialog as fd
 from tkinter import messagebox
@@ -9,11 +7,13 @@ import sys
 import argparse
 from pathlib import Path
 from random import uniform
+from writer import Writer
 
 
 FILE_NAME = 'text.txt'
 DEFAULT_INTERVAL = 0
 DEFAULT_TIMEOUT = 5
+writer = Writer(DEFAULT_INTERVAL)
 
 
 def createParser ():
@@ -37,20 +37,6 @@ def on_choose_click(button: Button):
 	button['text'] = FILE_NAME
 
 
-def write_line(line: str, interval_start: float, interval_end: float):
-	for symbol in line:
-		interval = uniform(interval_start, interval_end) if interval_start < interval_end else interval_start
-		pag.write(symbol, interval)
-
-
-def write_lines(lines: List[str], interval_start: float = DEFAULT_INTERVAL, interval_end: float = DEFAULT_INTERVAL):
-	for line in lines:
-		write_line(line, interval_start, interval_end)
-		pag.write('\n')
-		pag.press('home')
-		interval = 0
-
-
 def write_from_file(file_path: str = 'text.txt', interval_start: float = DEFAULT_INTERVAL, interval_end: float = DEFAULT_INTERVAL, timeout: float = DEFAULT_TIMEOUT):
 	if not os.path.exists(file_path):
 		messagebox.showerror('Ошибка', 'Файл: \"{}\" не найден'.format(file_path))
@@ -62,13 +48,13 @@ def write_from_file(file_path: str = 'text.txt', interval_start: float = DEFAULT
 	with open(file_path) as file:
 		text = file.read()
 
-	write_lines(text.split('\n'), interval_start, interval_end)
+	writer.write_lines(text.split('\n'), interval_start, interval_end)
 
 
 def write_from_clipboard(root: Tk, interval_start: float = DEFAULT_INTERVAL, interval_end: float = DEFAULT_INTERVAL, timeout: float = DEFAULT_TIMEOUT):
 	time.sleep(timeout)
 
-	write_lines(root.clipboard_get().split('\n'), interval_start, interval_end)
+	writer.write_lines(root.clipboard_get().split('\n'), interval_start, interval_end)
 
 
 def work(file_path: str, interval_start: float, interval_end: float, timeout: float, root: Tk, use_clipboard: bool = False):
@@ -174,7 +160,7 @@ def window_app_loop():
 	work_button.pack(side=BOTTOM, fill=X)
 	
 	root.resizable(False, False)
-	
+
 	root.mainloop()
 
 
