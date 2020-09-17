@@ -16,7 +16,7 @@ DEFAULT_TIMEOUT = 5
 writer = Writer(DEFAULT_INTERVAL)
 
 
-def createParser ():
+def createParser() -> argparse.ArgumentParser:
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--source', '-s', type=Path, help='Путь к файлу с текстом, из которого нужно переписать.')
 	parser.add_argument('--clipboard', '-clip', type=bool, help='Переписать ли из буффера обмена.')
@@ -75,6 +75,7 @@ def window_app_loop():
 	root.title("Nestor")
 	root.geometry("400x300")
 	root.attributes("-topmost", True)
+	root.resizable(False, False)
 
 	interval_label = Label(root,
 							text='Интервал печати:',
@@ -127,6 +128,7 @@ def window_app_loop():
 	timeout_entry.insert(0, str(DEFAULT_TIMEOUT))
 	timeout_entry.pack(side=TOP)
 
+	# Button for file choosing
 	select_button = Button(root,
 							text='Файл: ' + FILE_NAME,
 							background='#C0C0C0',
@@ -135,6 +137,7 @@ def window_app_loop():
 							)
 	select_button.pack(side=TOP)
 
+	# Checkbox for clipboard use
 	use_clipboard = BooleanVar()
 	use_clipboard.set(0)
 	clipboard_box = Checkbutton(
@@ -145,6 +148,7 @@ def window_app_loop():
 	)
 	clipboard_box.pack(side=TOP)
 
+	# Button for typing start
 	work_button = Button(root, 
 						text='Начать', 
 						background='#696969',
@@ -158,8 +162,6 @@ def window_app_loop():
 											)
 						)
 	work_button.pack(side=BOTTOM, fill=X)
-	
-	root.resizable(False, False)
 
 	root.mainloop()
 
