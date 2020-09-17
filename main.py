@@ -173,6 +173,8 @@ def window_app_loop():
 						)
 	work_button.pack(side=BOTTOM, fill=X)
 	
+	root.resizable(False, False)
+	
 	root.mainloop()
 
 
